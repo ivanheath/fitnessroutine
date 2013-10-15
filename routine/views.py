@@ -15,10 +15,27 @@ def routine(request):
     request.session['currentroutine'] = request.get_full_path()[14:]
     routine = Routine.objects.get(routinename=request.session['currentroutine'])
     routinetime = routine.length + 1
+    exerciselist = Exercisespecific.objects.filter(routine=routine)
+    mondayexercise = Exercisespecific.objects.filter(routine=routine, day="monday")
+    tuesdayexercise = Exercisespecific.objects.filter(routine=routine, day="tuesday")
+    wednesdayexercise = Exercisespecific.objects.filter(routine=routine, day="wednesday")
+    thursdayexercise = Exercisespecific.objects.filter(routine=routine, day="thursday")
+    fridayexercise = Exercisespecific.objects.filter(routine=routine, day="friday")
+    saturdayexercise = Exercisespecific.objects.filter(routine=routine, day="saturday")
+    sundayexercise = Exercisespecific.objects.filter(routine=routine, day="saturday")
     return render(request, 'routine/routine.html',
 	{"currentuser": request.session['username'],
 	 "currentroutine": request.session['currentroutine'],
 	 "routinelength": range(1, routinetime),
+	 "routinetime": routinetime,
+	 "exerciselist": exerciselist,
+	 "mondayexercise": mondayexercise,
+	 "tuesdayexercise": tuesdayexercise,
+	 "wednesdayexercise": wednesdayexercise,
+	 "thursdayexercise": thursdayexercise,
+	 "fridayexercise": fridayexercise,
+	 "saturdayexercise": saturdayexercise,
+	 "sundayexercise": sundayexercise,
 	})
 
 def addroutine(request):
@@ -56,22 +73,27 @@ def deleteroutine(request):
     return main(request)
 
 def addexercise(request):
-    exerciselist = Exercisespecific.objects.filter(routine=request.session['currentroutine'])
-    return render(request, 'routine/addexercise.html')
+    routine = Routine.objects.get(routinename = request.session['currentroutine'])
+    exerciselist = Exercises.objects.all()
+    return render(request, 'routine/addexercise.html',
+		 {"exerciselist": exerciselist,
+		 })
 
 def exerciseadded(request):
     new = request.POST.get('new')
+    exercisename = request.POST.get('exercisename')
+    day = request.POST.get('day')
+    routine = Routine.objects.get(routinename=request.session['currentroutine'])
     if new == "true":
-	exercisename = request.POST.get('exercisename')
-	exercisedescription = request.POST.get('exercisedescription')
-	musclegroup = request.POST.get('musclegroup')
-	day = request.POST.get('day')
-	newexercise = Exercises(exercisename=exercisename, exercisedescription=exercisedescription, musclegroup=musclegroup)
-	newexercise.save()
-	newexerciseS = Exercisespecific(day=day, routine=request.session['currentroutine'], exercise=Exercises.objects.get(exercisename=exercisename))
-	newexerciseS.save()
-	return main(request)
-    else:
-	exercisename = request.POST.get('exercisename')
-	day = request.POST.get('day')
-	return main(request)
+        #exercisename = request.POST.get('exercisename')
+        exercisedescription = request.POST.get('exercisedescription')
+        musclegroup = request.POST.get('musclegroup')
+        #day = request.POST.get('day')
+        newexercise = Exercises(exercisename=exercisename, exercisedescription=exercisedescription, musclegroup=musclegroup)
+        newexercise.save()
+        #routine = Routine.objects.get(routinename=request.session['currentroutine']
+    exercises = Exercises.objects.get(exercisename=exercisename)
+    newexerciseS = Exercisespecific(day=day, routine=routine, Exercise=exercises)
+    newexerciseS.save()
+        #return main(request)
+    return main(request)
