@@ -1,0 +1,25 @@
+ <table border=1>
+        <tr>
+            <td>welcome {{ currentuser }}</td>
+            <td><a href="{% url 'login' %}">logout</a></td>
+        </tr>
+        <tr>
+            <td>workout routines</td>
+        </tr>
+	{% for Routine in routinelist %}
+	<tr>
+                <td><a href="{% url 'routine' %}">{{ Routine.routinename }}</a></td>
+		<td>{{ Routine.length }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>
+		<a href="{% url 'addroutine' %}">add new routine</a> 
+            </td>
+        </tr>
+        <tr>
+	    <td>
+		delete a routine
+	    </td>
+        </tr>
+

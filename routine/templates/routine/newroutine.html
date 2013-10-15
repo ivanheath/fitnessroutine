@@ -1,0 +1,10 @@
+<h1>add new routine here</h1>
+<h2>{{ currentuser }}</h2>
+<form name="newroutine" action="{% url 'routineadded' %}" method="POST">
+{% csrf_token %}
+routine name: <input type="text" name="routinename"><br>
+length(weeks): <input type="number" name="length">
+<input type="hidden" name="currentuser" value="{{ currentuser }}">
+<input type="submit" value="addroutine">
+</form>
+

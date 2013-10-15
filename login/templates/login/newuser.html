@@ -1,0 +1,10 @@
+<h1>add a new user</h1>
+<form name="adduser" action="useradded" method="POST">
+{% csrf_token %}
+user name:        <input type="text" name="username"><br>
+password:         <input type="password" name="password"><br>
+password(repeat): <input type="password" name="password2"><br>
+<input type="submit" value="newuser">
+</form>
+
+

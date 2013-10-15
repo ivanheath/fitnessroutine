@@ -1,0 +1,10 @@
+{% if worked == "yes" %}
+    new user {{ username }} has been added.
+    <br>
+    Your password is: {{ password }}
+    <a href="{% url 'login' %}">login</a>
+{% else %}
+    your passwords didn't match, please<a href="{% url 'newuser' %}"> try again<$
+    or go <a href="{% url 'index' %}">home</a>
+{% endif %}
+

@@ -1,0 +1,11 @@
+<h1>fitness routine and poop</h1>
+
+<form name="login" action="{% url 'main' %}" method="POST">
+{% csrf_token %}
+    login name:<input type="text" name="loginname"><br />
+    password:<input type="password" name="password"><br />
+    <input type="submit" value="login">
+</form>
+<br />
+<a href="newuser">add new user</a>
+
