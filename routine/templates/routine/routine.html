@@ -8,74 +8,23 @@
     <td width="60">week {{ x }}</td>
 {% endfor %}
 </tr>
-<tr>
-    <th colspan="{{ routinetime }}">monday</th>
-</tr>
-{% for Exercisespecific in mondayexercise %}
-<tr>
-    <td>{{ Exercisespecific.Exercise }}</td>
-    {% for x in routinelength %}
-	<td>&nbsp;</td>
-    {% endfor %}
-</tr>
-{% endfor %}
-<tr><th colspan="{{ routinetime }}">tuesday</th></tr>
-{% for Exercisespecific in tuesdayexercise %}
-<tr>
-    <td>{{ Exercisespecific.Exercise }}</td>
-    {% for x in routinelength %}
-	<td>&nbsp;</td>
-    {% endfor %}
-</tr>
-{% endfor %}
-<tr><th colspan="{{ routinetime }}">wednesday</th></tr>
-{% for Exercisespecific in wednesdayexercise %}
-<tr>
-    <td>{{ Exercisespecific.Exercise }}</td>
-    {% for x in routinelength %}
-        <td>&nbsp;</td>
-    {% endfor %}
-</tr>
-{% endfor %}
-<tr><th colspan="{{ routinetime }}">thursday</th></tr>
-{% for Exercisespecific in thursdayexercise %}
-<tr>
-    <td>{{ Exercisespecific.Exercise }}</td>
-    {% for x in routinelength %}
-        <td>&nbsp;</td>
-    {% endfor %}
-</tr>
-{% endfor %}
-<tr><th colspan="{{ routinetime }}">friday</th></tr>
-{% for Exercisespecific in fridayexercise %}
-<tr>
-    <td>{{ Exercisespecific.Exercise }}</td>
-    {% for x in routinelength %}
-        <td>&nbsp;</td>
-    {% endfor %}
-</tr>
-{% endfor %}
-<tr><th colspan="{{ routinetime }}">saturday</th></tr>
-{% for Exercisespecific in saturdayexercise %}
-<tr>
-    <td>{{ Exercisespecific.Exercise }}</td>
-    {% for x in routinelength %}
-        <td>&nbsp;</td>
-    {% endfor %}
-</tr>
-{% endfor %}
-<tr><th colspan="{{ routinetime }}">sunday</th></tr>
-{% for Exercisespecific in sundayexercise %}
-<tr>
-    <td>{{ Exercisespecific.Exercise }}</td>
-    {% for x in routinelength %}
-        <td>&nbsp;</td>
-    {% endfor %}
-</tr>
-{% endfor %}
 
+{% for day in day %}
+<tr><th colspan="{{ routinetime }}">{{ day }}</th></tr>
+{% for Exercisespecific in exerciselist %}
+{% if Exercisespecific.day = day %}
+<tr>
+    <td>{{ Exercisespecific.Exercise }}</td>
+    {% for x in routinelength %}
+	<td>&nbsp;</td>
+    {% endfor %}
+</tr>
+{% endif %}
+{% endfor %}
+{% endfor %}
 
 </table>
 <br><br>
 <a href="{% url 'exercise' %}">add/remove an exercise</a>
+<br>
 

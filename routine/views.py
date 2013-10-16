@@ -16,28 +16,14 @@ def routine(request):
     routine = Routine.objects.get(routinename=request.session['currentroutine'])
     routinetime = routine.length + 1
     exerciselist = Exercisespecific.objects.filter(routine=routine)
-    mondayexercise = Exercisespecific.objects.filter(routine=routine, day="monday")
-    tuesdayexercise = Exercisespecific.objects.filter(routine=routine, day="tuesday")
-    wednesdayexercise = Exercisespecific.objects.filter(routine=routine, day="wednesday")
-    thursdayexercise = Exercisespecific.objects.filter(routine=routine, day="thursday")
-    fridayexercise = Exercisespecific.objects.filter(routine=routine, day="friday")
-    saturdayexercise = Exercisespecific.objects.filter(routine=routine, day="saturday")
-    sundayexercise = Exercisespecific.objects.filter(routine=routine, day="sunday")
-    test = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    day = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
     return render(request, 'routine/routine.html',
 	{"currentuser": request.session['username'],
 	 "currentroutine": request.session['currentroutine'],
 	 "routinelength": range(1, routinetime),
 	 "routinetime": routinetime,
 	 "exerciselist": exerciselist,
-	 "mondayexercise": mondayexercise,
-	 "tuesdayexercise": tuesdayexercise,
-	 "wednesdayexercise": wednesdayexercise,
-	 "thursdayexercise": thursdayexercise,
-	 "fridayexercise": fridayexercise,
-	 "saturdayexercise": saturdayexercise,
-	 "sundayexercise": sundayexercise,
-	 "test": test,
+	 "day": day,
 	})
 
 def addroutine(request):
