@@ -4,11 +4,11 @@
             <td><a href="{% url 'login' %}">logout</a></td>
         </tr>
         <tr>
-            <td>workout routines</td>
+            <td>workout routines</td><td>length</td>
         </tr>
 	{% for Routine in routinelist %}
 	<tr>
-                <td><a href="{% url 'routine' %}">{{ Routine.routinename }}</a></td>
+                <td><a href="{% url 'routine' %}{{ Routine.routinename }}">{{ Routine.routinename }}</a></td>
 		<td>{{ Routine.length }}</td>
             </tr>
         {% endfor %}
@@ -19,7 +19,15 @@
         </tr>
         <tr>
 	    <td>
-		delete a routine
+		delete routine
+		<form name="deleteroutine" action="{% url 'deleteroutine' %}" method="POST">
+		{% csrf_token %}
+		<select name="deleteroutine">
+		    {% for Routine in routinelist %}
+		    <option value="{{ Routine.routinename }}">{{ Routine.routinename }}</option>
+		{% endfor %}
+		</select>
+		<input type="submit" value="delete">
 	    </td>
         </tr>
 

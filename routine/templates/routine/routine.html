@@ -1,1 +1,14 @@
-this is a custom routine
+
+<h1>{{ currentroutine }}</h1>
+
+<table border=1>
+<tr>
+    <td>exercise</td>
+{% for x in routinelength %}
+    <td>week {{ x }}</td>
+{% endfor %}
+</tr>
+
+</table>
+<a href="{% url 'exercise' %}">add an exercise</a>
+

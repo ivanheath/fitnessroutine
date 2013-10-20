@@ -1,12 +1,12 @@
 from django.db import models
 
-class Excercises(models.Model):
-    excercisename = models.CharField(max_length=200)
-    excercisedescription = models.CharField(max_length=400)
+class Exercises(models.Model):
+    exercisename = models.CharField(max_length=200)
+    exercisedescription = models.CharField(max_length=400)
     musclegroup = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return self.excercisename
+        return self.exercisename
 
 class Routine(models.Model):
     routinename = models.CharField(max_length=200)
@@ -16,8 +16,8 @@ class Routine(models.Model):
     def __unicode__(self):
         return self.routinename
 
-class Excercisespecific(models.Model):
+class Exercisespecific(models.Model):
     day = models.CharField(max_length=200)
     routine = models.ForeignKey(Routine)
-    Excercise = models.ForeignKey(Excercises)
+    Exercise = models.ForeignKey(Exercises)
 

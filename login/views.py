@@ -15,16 +15,26 @@ def logincheck(request):
 	return HttpResponse('username or password is blank')
     else:
 	pass
+#    try:
+#        currentuser = Users.objects.get(username=user)
+#	if currentuser.password == passw:
+#	    request.session['username'] = currentuser.username
+#	    return main(request)
+#	    
+#	else:
+#	    return HttpResponse("username or password is invalid you foo")
+#    except:
+#	return HttpResponse('username or password is invalid')
+
     try:
-        currentuser = Users.objects.get(username=user)
-	if currentuser.password == passw:
-	    request.session['username'] = currentuser.username
-	    return main(request)
-	    
-	else:
-	    return HttpResponse("username or password is invalid you foo")
+	currentuser = Users.objects.get(username=user)
     except:
-	return HttpResponse('username or password is invalid')
+	return HttpResponse("that username doesn't exist")
+    if currentuser.password == passw:
+	request.session['username'] = currentuser.username
+	return main(request)
+    else:
+	return HttpResponse("username or password is invalid")
 
 def newuser(request):
     return render(request, 'login/newuser.html')

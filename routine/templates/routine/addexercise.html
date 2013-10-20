@@ -1,0 +1,38 @@
+<h1>add new exercise here</h1>
+<h2>add exercise from list</h2>
+<form action="{% url 'exerciseadded' %}" name="addexercise" action="POST">
+{% csrf_token %}
+pick an exercise from the list<br>
+<select name="exerciselist">
+Day to do it: <select name="day">
+                 <option>monday</option>
+                 <option>tuesday</option>
+                 <option>wednesday</option>
+                 <option>thursday</option>
+                 <option>friday</option>
+                 <option>saturday</option>
+                 <option>sunday</option>
+              </select>
+<br>
+<input type="hidden" name="new" value="false">
+<input type="submit" name="addexercise">
+</form>
+<h2>or make a new exercise</h2>
+<form action="{% url 'exerciseadded' %}" name="addexercise" action="POST">
+{% csrf_token %}
+exercise name: <input type="text" name="exercisename"><br>
+exercise description: <input type="text" name="exercisedescription"><br>
+musclegroup: <input type="text" name="musclegroup"><br>
+Day to do it: <select name="day">
+		 <option>monday</option>
+		 <option>tuesday</option>
+		 <option>wednesday</option>
+		 <option>thursday</option>
+		 <option>friday</option>
+		 <option>saturday</option>
+		 <option>sunday</option>
+	      </select>
+<br>
+<input type="hidden" name="new" value="true">
+<input type="submit" name="addexercise">
+</form>
