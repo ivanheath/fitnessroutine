@@ -22,7 +22,8 @@ def routine(request):
     thursdayexercise = Exercisespecific.objects.filter(routine=routine, day="thursday")
     fridayexercise = Exercisespecific.objects.filter(routine=routine, day="friday")
     saturdayexercise = Exercisespecific.objects.filter(routine=routine, day="saturday")
-    sundayexercise = Exercisespecific.objects.filter(routine=routine, day="saturday")
+    sundayexercise = Exercisespecific.objects.filter(routine=routine, day="sunday")
+    test = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
     return render(request, 'routine/routine.html',
 	{"currentuser": request.session['username'],
 	 "currentroutine": request.session['currentroutine'],
@@ -36,6 +37,7 @@ def routine(request):
 	 "fridayexercise": fridayexercise,
 	 "saturdayexercise": saturdayexercise,
 	 "sundayexercise": sundayexercise,
+	 "test": test,
 	})
 
 def addroutine(request):
@@ -75,25 +77,50 @@ def deleteroutine(request):
 def addexercise(request):
     routine = Routine.objects.get(routinename = request.session['currentroutine'])
     exerciselist = Exercises.objects.all()
+    currentroutineexerciselist = Exercisespecific.objects.filter(routine=routine)
     return render(request, 'routine/addexercise.html',
-		 {"exerciselist": exerciselist,
-		 })
+	{"exerciselist": exerciselist,
+	 "currentroutineexerciselist" : currentroutineexerciselist,
+	})
 
 def exerciseadded(request):
-    new = request.POST.get('new')
+    option = request.POST.get('option')
     exercisename = request.POST.get('exercisename')
     day = request.POST.get('day')
     routine = Routine.objects.get(routinename=request.session['currentroutine'])
-    if new == "true":
-        #exercisename = request.POST.get('exercisename')
-        exercisedescription = request.POST.get('exercisedescription')
+    if option == "addnew":
+	exercisedescription = request.POST.get('exercisedescription')
         musclegroup = request.POST.get('musclegroup')
-        #day = request.POST.get('day')
-        newexercise = Exercises(exercisename=exercisename, exercisedescription=exercisedescription, musclegroup=musclegroup)
-        newexercise.save()
-        #routine = Routine.objects.get(routinename=request.session['currentroutine']
-    exercises = Exercises.objects.get(exercisename=exercisename)
-    newexerciseS = Exercisespecific(day=day, routine=routine, Exercise=exercises)
-    newexerciseS.save()
-        #return main(request)
+	if exercisename == '':
+	    return HttpResponse("please type an exercise name")
+	elif exercisedescription == '':
+	    return HttpResponse("please type an exercise description")
+	elif musclegroup == '':
+	    return HttpResponse("please type a muscle group for the exercise")
+	else:
+	    try:
+		Exercises.objects.get(exercisename=exercisename)
+		return HttpResponse("that exercise allready exists")
+	    except:
+                newexercise = Exercises(exercisename=exercisename, exercisedescription=exercisedescription, musclegroup=musclegroup)
+	        newexercise.save()
+	        newexerciseS = Exercisespecific(day=day, routine=routine, Exercise=newexercise)
+	        newexerciseS.save()
+       
+    elif option == "addlist":
+	newexerciseS = Exercisespecific(day=day, routine=routine, Exercise=Exercises.objects.get(exercisename=exercisename))
+	newexerciseS.save()
+
+    elif option == "deletecurrent":
+	split=exercisename.find(':')
+	day = exercisename[split+1:]
+	exercisename=exercisename[:split]
+	Exercisespecific.objects.get(day=day, Exercise=Exercises.objects.get(exercisename=exercisename)).delete() 
+ 
+    elif option == "deletedb":
+	exercise = Exercises.objects.get(exercisename=exercisename)
+	Exercisespecific.objects.filter(Exercise=exercise).delete()
+	Exercises.objects.get(exercisename = exercisename).delete()
+	
+
     return main(request)

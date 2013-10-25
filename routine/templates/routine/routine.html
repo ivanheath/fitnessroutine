@@ -1,11 +1,11 @@
 
-<h1>{{ currentroutine }}</h1>
+<h1 align="center">{{ currentroutine }}</h1>
 
-<table border=1>
+<table border=1 align="center">
 <tr>
     <td>exercise</td>
 {% for x in routinelength %}
-    <td>week {{ x }}</td>
+    <td width="60">week {{ x }}</td>
 {% endfor %}
 </tr>
 <tr>
@@ -76,5 +76,6 @@
 
 
 </table>
-<a href="{% url 'exercise' %}">add an exercise</a>
+<br><br>
+<a href="{% url 'exercise' %}">add/remove an exercise</a>
 

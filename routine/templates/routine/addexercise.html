@@ -5,7 +5,7 @@
 pick an exercise from the list<br>
 <select name="exercisename">
 {% for Exercises in exerciselist %}
-    <option>{{ Exercises.exercisename }}</option>
+    <option value="{{ Exercises.exercisename }}">{{ Exercises.exercisename }}</option>
 {% endfor %}
 </select>
 Day to do it: <select name="day">
@@ -18,7 +18,7 @@ Day to do it: <select name="day">
                  <option value="sunday">sunday</option>
               </select>
 <br>
-<input type="hidden" name="new" value="false">
+<input type="hidden" name="option" value="addlist">
 <input type="submit" value="addexercise">
 </form>
 <h2>or make a new exercise</h2>
@@ -37,6 +37,32 @@ Day to do it: <select name="day">
 		 <option value="sunday">sunday</option>
 	      </select>
 <br>
-<input type="hidden" name="new" value="true">
+<input type="hidden" name="option" value="addnew">
 <input type="submit" value="addexercise">
+</form>
+<h1>Remove Exercises here</h2>
+<h2>Remove Exercise from routine</h2>
+<form action="{% url 'exerciseadded' %}" name="removeexercise" method="POST">
+{% csrf_token %}
+exercise name: <select name="exercisename">
+{% for Exercisespecific in currentroutineexerciselist %}
+		<option value="{{ Exercisespecific.Exercise }}:{{ Exercisespecific.day }}">
+		{{ Exercisespecific.Exercise }} on {{ Exercisespecific.day }}
+		</option>
+{% endfor %}
+	</select>
+<input type="hidden" name="option" value="deletecurrent">
+<input type="submit" value="remove exercise">
+</form>
+<h2>Remove Exercise from database</h2>
+<form action="{% url 'exerciseadded' %}" name="removefromdatabase" method="POST">
+{% csrf_token %}
+exercise name: <select name="exercisename">
+{% for Exercises in exerciselist %}
+		<option value="{{ Exercises.exercisename }}">
+		{{ Exercises.exercisename }}</option>
+{% endfor %}
+	</select>
+<input type="hidden" name="option" value="deletedb">
+<input type="submit" value="remove exercise">
 </form>
