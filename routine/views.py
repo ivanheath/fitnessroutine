@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from django import forms
 from routine.models import Routine, Exercises, Exercisespecific
-
+from extras import dayerizor
 def main(request):
     currentuser = request.session['username']
     routinelist = Routine.objects.filter(username=currentuser)
@@ -17,6 +17,8 @@ def routine(request):
     routinetime = routine.length + 1
     exerciselist = Exercisespecific.objects.filter(routine=routine)
     day = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    day = exerciselist.values_list('day', flat=True).distinct()
+    day = dayerizor(day)
     return render(request, 'routine/routine.html',
 	{"currentuser": request.session['username'],
 	 "currentroutine": request.session['currentroutine'],
